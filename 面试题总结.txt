@@ -205,3 +205,167 @@
 		})；
 	4、ExecutorService	singleThreadExecutor=Executors.newSingleThreadExecutor();
 49、springboot如何不用默认的tomcat
+	修改依赖，修改applicationContext的启动方法
+50、算法
+	//1、快速排序
+	public static void quickSort(int[] arr,int l,int r){
+		int i=l,j=r,temp;
+		if(l<r){
+			//给基准变量赋值
+			temp=arr[i];
+			while(i!=j){
+				//从右往左扫描
+				while(i<j && temp){
+					j--;
+				}
+				if(i<j){
+					arr[i]=arr[j];
+					i++;
+				}
+				//从左往右扫描
+				while(i<j && temp>arr[i]){
+					i++;
+				}
+				if(i<j){
+					arr[j]=arr[i];
+					j--;
+				}
+			}
+			arr[i]=temp;
+			quickSort(arr,l,i-1);
+			quickSort(arr,i+1,r);
+		}
+	}
+	//2、冒泡排序
+	public static void bubbleSort(int[] arr){
+		//先声明一个临时变量
+		int temp=0;
+		for(int i=0;i<arr.length-1;i++){
+			for(int j=0;j<arr.length-1-i;j++){
+				if(arr[j]>arr[j+1]){
+					temp=arr[j];
+					arr[j]=arr[j+1];
+					arr[j+1]=temp;
+				}
+			}
+		}
+	}
+	//3、二分法查找
+	public static int erfen(int[] arr,int m,int l,int r){
+		//先判断m是否在数组中及数组是否满足要求
+		if(m<arr[l] || m>arr[r] || arr[l]>arr[r]){
+			return -1;
+		}
+		//着中间序号及中间值
+		int mIndex=(l+r)/2;
+		int mValue=arr[mIndex];
+		if(mValue==m){
+			return mValue;
+		}else if(mValue>m){
+			return erfen(arr,m,l,mIndex);
+		}else{
+			return erfen(arr,m,mIndex,arr.length);
+		}
+	}
+51、数据结构
+	//二叉树
+	1、先定义一颗树
+	public Class TreeNode{
+		int val;
+		TreeNode left;
+		TreeNode right;
+	}
+	//先序遍历二叉树
+	public Class Test{
+		public ArrayList<Integer> preOrderReverse(TreeNode root){
+			ArrayList<Integer> result = new ArrayList<Integer>();
+			preOrder(root,result);
+			return result;
+		}
+		public static void preOrder(TreeNode root,ArrayList<Integer> result){
+			if(root==null){
+				return;
+			}
+			result.add(root.val);
+			preOrder(root.left,result);
+			preOrder(root.right,result);
+		}
+	}
+52、线程的状态及转换(参考：https://blog.csdn.net/u013129944/article/details/73741161/)
+	1、新建(new):新创建了一个线程对象
+	2、可运行及就绪状态:线程对象创建之后，如果其他线程(main线程)调用了该对象的start()方法。
+	那么该状态的线程位于可运行的线程池中，等待分配CPU的使用权。
+	3、运行:可运行的线程获取了cpu的时间片
+	4、阻塞:线程由于某种原因让出cpu
+	5、死亡:run()/main()方法结束
+53、如何读取一个文件的文本并一行一行的输出
+	FileInputStream
+	InputStreamReader
+	BufferedReader的readLine()方法
+54、乐观锁和悲观锁
+	悲观锁：
+		悲观锁故名思义就是很悲观，每次去拿数据的时候都认为别人会修改，所以在每次去拿数据的时候就会加上锁
+		，这样别人想拿这个数据就会处于block(阻塞)状态。传统的关系型数据库里面就用到了这种锁机制，如(行锁，表锁)
+	乐观锁：
+		乐观锁故名思义就是很乐观，每次去拿数据的时候都认为别人不会修改，所以不会加锁。但是在更新的时候会
+		判断在此之前有没有人去跟新数据，可以使用版本号机制。
+		乐观锁大多数是基于数据库版本(Version)记录机制体现。何为数据版本？及为数据增加一个版本标识，在基于数据库
+		表的版本解决方案中，一般是通过数据库表增加一个"version"字段来实现。
+		读取数据时将此版本号一同读出，之后更新时对此版本号加1，此时将提交数据的版本数据与数据库表对应记录的当前
+		版本信息进行比对。如果提交的数据版本号大于数据库表当前版本号，则给予更新否则认为是过期数据。
+		(注意：在并发过程中，如果多条数据同时更新，只要有更新版本加1，其他数据版本也加1但是还是被认为是过期数据)
+	
+55、hashMap底层实现原理,hashMap中的数组及链表大小是多少，hashCode()和equals()方法的作用
+	16,
+56、currentHashMap和hashMap直接加锁(synchronized)的区别
+	
+57、spring源码
+58、redis如何实现高并发的
+	
+59、索引的最左规则
+60、springCloud和dubbo的区别
+61、linux命令（性能及常用）
+	less(翻页查看)、grep查找、进vim查找命令(\+查找词+[n/N];?+查找词+[n/N])、性能查看命令(top[linux进程监控]
+	;vmstat[虚拟内存统及];netstat[网络状态统及];df -h[统及整体磁盘的使用情况];du -sh[查看指定目录的磁盘使用情况])
+62、xshell和linux的通信协议
+63、GC垃圾回收机制中的for和serial的区别
+64、ArrayList和LinkedList的区别
+65、数组和链表的区别
+	数组：就是相同数据类型
+66、如何对100万条数据进行去重
+	将数据add到list中，声明Map<String,Object> map=new HashMap<String,Object>();
+	进行调用map的containsKey方法：map.containsKey(list中数据的.hashCode()方法)
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
